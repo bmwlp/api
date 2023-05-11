@@ -246,7 +246,7 @@ app.get('/getuser', jsonParser, function (req, res, next) {
         'SELECT C_Email,C_Firstname,C_Lastname,C_Address,C_Phone  FROM customer WHERE C_Email = ?',
         [decoded.C_Email],
         function (err, results) {
-            res.json(results);
+            res.json({ status: 'error', massage: err })
         }
     );
 })
