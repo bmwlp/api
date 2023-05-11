@@ -243,7 +243,7 @@ app.get('/getuser', jsonParser, function (req, res, next) {
     const token = req.headers.authorization.split(" ")[1];
     var decoded = jwt.verify(token, secret);
     connection.execute(
-      'SELECT C_Email,C_FirstName,C_LastName,C_Address,C_Phone FROM customer WHERE C_Email = ?',
+      'SELECT C_Email, C_Firstname, C_Lastname, C_Address, C_Phone FROM customer WHERE C_Email = ?',
       [decoded.C_Email],
       function (err, results) {
         if (err) {
