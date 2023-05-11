@@ -230,7 +230,7 @@ app.post('/update', jsonParser, function (req, res, next) {
     const token = req.headers.authorization.split(" ")[1];
     var decoded = jwt.verify(token, secret);
     connection.execute(
-        'UPDATE customer SET C_Firstname = ?,C_Lastname = ?, C_Address = ? ,C_Phone = ? WHERE C_Email = ?',
+        'UPDATE Customer SET C_Firstname = ?,C_Lastname = ?, C_Address = ? ,C_Phone = ? WHERE C_Email = ?',
         [req.body.C_Firstname, req.body.C_Lastname, req.body.C_Address, req.body.C_Phone, decoded.C_Email],
         function (err, results) {
             res.json(results);
