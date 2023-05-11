@@ -39,6 +39,27 @@ app.post('/register', jsonParser, function (req, res, next) {
 })
 
 
+app.post('/getbook', jsonParser, function (req, res, next) {
+    try {
+        connection.execute(
+            'INSERT INTO `getbook`( `B_name`, `B_Type`, `B_Qty`, `B_Price`, `BB_img`, `B_detail`) VALUES (?,?,?,?,?,?)',
+            [req.body.B_name, req.body.B_Type, req.body.B_Qty, req.body.B_Price, req.body.BB_img, req.body.B_detail],
+            function (err, results, fields) {
+                if (err) {
+                    res.json({ status: 'error', massage: err })
+                    return
+                }
+                res.json({ status: 'ok' })
+            }
+        );
+    } catch (err) {
+        res.json({ status: 'error', message: err })
+    }
+})
+
+
+
+
 app.post('/login', jsonParser, function (req, res, next) {
     connection.execute(
         'SELECT * FROM Customer WHERE C_Email = ?',
@@ -210,7 +231,7 @@ app.post('/update', jsonParser, function (req, res, next) {
     var decoded = jwt.verify(token, secret);
     connection.execute(
         'UPDATE customer SET C_Firstname = ?,C_Lastname = ?, C_Address = ? ,C_Phone = ? WHERE C_Email = ?',
-        [req.body.C_Firstname, req.body.C_Lastname,req.body.C_Address,req.body.C_Phone,decoded.C_Email ],
+        [req.body.C_Firstname, req.body.C_Lastname, req.body.C_Address, req.body.C_Phone, decoded.C_Email],
         function (err, results) {
             res.json(results);
         }
@@ -222,8 +243,8 @@ app.get('/getuser', jsonParser, function (req, res, next) {
     const token = req.headers.authorization.split(" ")[1];
     var decoded = jwt.verify(token, secret);
     connection.execute(
-    'SELECT C_Email,C_Firstname,C_Lastname,C_Address,C_Phone  FROM customer WHERE C_Email = ?',
-        [decoded.C_Email ],
+        'SELECT C_Email,C_Firstname,C_Lastname,C_Address,C_Phone  FROM customer WHERE C_Email = ?',
+        [decoded.C_Email],
         function (err, results) {
             res.json(results);
         }
